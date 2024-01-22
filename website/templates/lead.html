@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+{% if user.is_authenticated %}
+<div class="col-md-4"></div>
+    <section class="class=mt-4">
+        {% include 'search.html' %}
+    </section>
+</div>
+</div>
+
+    <table class="table table-striped table-hover table-bordered">
+    <thead class="table-dark">
+        <tr>
+        <th scope="col">Organization</th>
+        <th scope="col">Agent</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Email</th>
+        <th scope="col">date_added</th>
+        <th scope="col">converted_date</th>
+        <th scope="col">Description</th>
+        <th scope="col">approval status</th>
+        <th scope="col">ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+{% if leads %}
+    {% for lead in leads %}
+        <tr>
+            <td>{{ lead.organization }}</td>
+            <td>{{ lead.agent }}</td>
+            <td>{{ lead.phone_number }}</td>
+            <td>{{ lead.email}}</td>
+            <td>{{ lead.date_added }}</td>
+            <td>{{ lead.converted_date}}</td>
+            <td>{{ lead.description }}</td>
+            <td>
+               
+                
+                    {% if lead.approved %}
+                        Approved
+                    {% else %}
+                        Open
+                    {% endif %}
+            
+                
+            </td>
+            <td><a href="{% url 'view_leads' lead.id %}">{{ lead.id }}</a></td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+    </tbody>
+    </table>
+</div>
+  
+{% else %}
+    <div class="col-md-6 offset-md-3">
+    <h1>Login</h1>
+    <br/>
+    
+    <form method="POST" action="{% url 'home' %}">
+        {% csrf_token %}
+    
+      <div class="mb-3">
+        <input type="text" class="form-control" name="username", placeholder="Username" required>
+        
+      </div><br/>
+      <div class="mb-3">
+        <input type="password" class="form-control" name="password", placeholder="Password" required>
+      </div>
+      <br/>
+      <button type="submit" class="btn btn-secondary">Login</button>
+    
+    </form>
+
+
+
+    
+{% endif %}
+
+
+{% endblock %}
+

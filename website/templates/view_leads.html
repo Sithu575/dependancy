@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}                <!--view record by id-->
+
+<div class="card">
+    <div class="card-header"><strong>Organization:
+        {{view_leads.organization}}</strong>
+    </div>
+    <div class="card-body">
+  
+  <p class="card-text">
+  <strong>Email: </strong>{{ view_leads.email }}</p>
+
+  <p class="card-text">
+  <strong>Phone: </strong>{{ view_leads.phone_number }}</p>
+  
+  <p class="card-text">
+  <strong>Agent: </strong>{{ view_leads.agent }}</p>
+  
+  <p class="card-text">
+  <strong>Description: </strong>{{ view_leads.description }}</p>
+  
+  <p class="card-text">
+  <strong>Date_added: </strong>{{view_leads.date_added }}</p>
+  
+  <p class="card-text">
+  <strong>Converted_date: </strong>{{ view_leads.converted_date }}</p>
+    
+  <p class="card-text">
+    
+    <strong>Approved: </strong>
+    {% if view_leads.approved %}
+        Approved
+    {% else %}
+        Open
+    {% endif %}
+         
+      </div>
+  </div>
+  <br/><br/>
+  <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+  {% if 'website' in perms %}
+  {% if 'website.delete_record' in perms %}
+  <a href="#" class="btn btn-danger">Delete</a>
+  {% endif %}
+  {% endif %}
+  <a href="#" class="btn btn-secondary">Update Record</a>
+
+  {% if 'website' in perms %}
+      {% if 'website.can_lead_approval' in perms %}
+      <a href="{% url 'lead_approval' view_leads.id %}" class="btn btn-secondary">Approved</a>
+    {% endif %}
+  {% endif %}
+  
+  {% endblock %}
+  
